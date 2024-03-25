@@ -2,18 +2,20 @@ import { FC, useState } from 'react'
 import { Button, Stack, Box, Typography } from '@mui/material'
 
 const App: FC = () => {
-  const [player, setPlayer] = useState('X')
-  const [board, setBoard] = useState(Array(9).fill(null))
+  const [player, setPlayer] = useState('X') // プレイヤー
+  const [board, setBoard] = useState(Array(9).fill(null)) // 9マスのボード
+  const [gameOver, setGameOver] = useState(false) // ゲームオーバーかどうか
   const GRAY = 'rgba(128, 128, 128, 0.5)'
 
   const handleClick = (index: number) => {
-    if (board[index] === null) {
+    if (board[index] === null && !gameOver) {
       const newBoard = [...board]
       newBoard[index] = player
-      setBoard(newBoard)
       const winner = checkForWinner(newBoard)
+      setBoard(newBoard)
       if (winner) {
         alert(`Winner: ${winner}`)
+        setGameOver(true)
         return
       }
       setPlayer(player === 'X' ? 'O' : 'X')
@@ -43,6 +45,7 @@ const App: FC = () => {
   const resetBoard = () => {
     setBoard(Array(9).fill(null))
     setPlayer('X')
+    setGameOver(false)
   }
 
   const renderButton = (index: number) => (
@@ -71,7 +74,6 @@ const App: FC = () => {
         </ul>
       </p>
       <hr />
-      {/** gridも検討する */}
       <Stack direction="row" spacing={2}>
         <Box>
           {[...Array(3)].map((_, i) => (
@@ -82,7 +84,7 @@ const App: FC = () => {
         </Box>
         <Box>
           <Typography variant="h5" component="h5">
-            Next Player: {player}
+            {gameOver ? `Winner: ${player}` : `Next Player: ${player}`}
           </Typography>
           <Button onClick={resetBoard}>reset</Button>
         </Box>
