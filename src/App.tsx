@@ -11,6 +11,31 @@ const App: FC = () => {
   const [player, setPlayer] = useState('X');
   const [board, setBoard] = useState(Array(9).fill(null));
   const GRAY = 'rgba(128, 128, 128, 0.5)';
+
+  const handleClick = (index: number) => {
+    if (board[index] === null) {
+      const newBoard = [...board];
+      newBoard[index] = player;
+      setBoard(newBoard);
+      setPlayer(player === 'X' ? 'O' : 'X');
+    }
+  };
+
+  const resetBoard = () => {
+    setBoard(Array(9).fill(null));
+    setPlayer('X');
+  };
+
+  const renderButton = (index: number) => (
+    <Button
+      key={index}
+      style={{ height: '50px', minWidth: '50px', backgroundColor: GRAY }}
+      onClick={() => handleClick(index)}
+    >
+      {board[index]}
+    </Button>
+  );
+
   return (
     <div>
       <p>
@@ -28,110 +53,19 @@ const App: FC = () => {
       </p>
       <hr />
       {/** gridも検討する */}
-      <Stack direction="row">
+      <Stack direction="row" spacing={2}>
         <Box>
-          <Stack direction="row" spacing={1}>
-            <Button
-              style={{ height: '50px', minWidth: '50px', backgroundColor: GRAY }}
-              onClick={() => {
-              if (board[0] === null) {
-                const newBoard = [...board];
-                newBoard[0] = player;
-                setBoard(newBoard);
-                setPlayer(player === 'X' ? 'O' : 'X');
-              }
-            }}>{board[0]}</Button>
-            <Button
-              style={{ height: '50px', minWidth: '50px', backgroundColor: GRAY }}
-              onClick={() => {
-              if (board[1] === null) {
-                const newBoard = [...board];
-                newBoard[1] = player;
-                setBoard(newBoard);
-                setPlayer(player === 'X' ? 'O' : 'X');
-              }
-            }}>{board[1]}</Button>
-            <Button
-              style={{ height: '50px', minWidth: '50px', backgroundColor: GRAY }}
-              onClick={() => {
-              if (board[2] === null) {
-                const newBoard = [...board];
-                newBoard[2] = player;
-                setBoard(newBoard);
-                setPlayer(player === 'X' ? 'O' : 'X');
-              }
-            }}>{board[2]}</Button>
-          </Stack>
-          <Stack direction="row" spacing={1}>
-            <Button
-              style={{ height: '50px', minWidth: '50px', backgroundColor: GRAY }}
-              onClick={() => {
-              if (board[3] === null) {
-                const newBoard = [...board];
-                newBoard[3] = player;
-                setBoard(newBoard);
-                setPlayer(player === 'X' ? 'O' : 'X');
-              }
-            }}>{board[3]}</Button>
-            <Button
-              style={{ height: '50px', minWidth: '50px', backgroundColor: GRAY }}
-              onClick={() => {
-              if (board[4] === null) {
-                const newBoard = [...board];
-                newBoard[4] = player;
-                setBoard(newBoard);
-                setPlayer(player === 'X' ? 'O' : 'X');
-              }
-            }}>{board[4]}</Button>
-            <Button
-              style={{ height: '50px', minWidth: '50px', backgroundColor: GRAY }}
-              onClick={() => {
-              if (board[5] === null) {
-                const newBoard = [...board];
-                newBoard[5] = player;
-                setBoard(newBoard);
-                setPlayer(player === 'X' ? 'O' : 'X');
-              }
-            }}>{board[5]}</Button>
-          </Stack>
-          <Stack direction="row" spacing={1}>
-            <Button
-              style={{ height: '50px', minWidth: '50px', backgroundColor: GRAY }}
-              onClick={() => {
-              if (board[6] === null) {
-                const newBoard = [...board];
-                newBoard[6] = player;
-                setBoard(newBoard);
-                setPlayer(player === 'X' ? 'O' : 'X');
-              }
-            }}>{board[6]}</Button>
-            <Button
-              style={{ height: '50px', minWidth: '50px', backgroundColor: GRAY }}
-              onClick={() => {
-              if (board[7] === null) {
-                const newBoard = [...board];
-                newBoard[7] = player;
-                setBoard(newBoard);
-                setPlayer(player === 'X' ? 'O' : 'X');
-              }
-            }}>{board[7]}</Button>
-            <Button
-              style={{ height: '50px', minWidth: '50px', backgroundColor: GRAY }}
-              onClick={() => {
-              if (board[8] === null) {
-                const newBoard = [...board];
-                newBoard[8] = player;
-                setBoard(newBoard);
-                setPlayer(player === 'X' ? 'O' : 'X');
-              }
-            }}>{board[8]}</Button>
-          </Stack>
+          {[...Array(3)].map((_, i) => (
+            <Stack key={i} direction="row" spacing={1}>
+              {[...Array(3)].map((_, j) => renderButton(i * 3 + j))}
+            </Stack>
+          ))}
         </Box>
         <Box>
           <Typography variant="h5" component="h5">
             Next Player: {player}
           </Typography>
-          <Button>reset</Button>
+          <Button onClick={resetBoard}>reset</Button>
         </Box>
       </Stack>
     </div>
