@@ -1,30 +1,24 @@
-import { FC, useState } from 'react';
-import { Button, Stack, Box, Typography } from '@mui/material';
+import { FC, useState } from 'react'
+import { Button, Stack, Box, Typography } from '@mui/material'
 
-/**
- * 三目並べのボタンを押す
- * 順番が入れ替わる
- * 勝利かどうかの判定を行う
- *
- */
 const App: FC = () => {
-  const [player, setPlayer] = useState('X');
-  const [board, setBoard] = useState(Array(9).fill(null));
-  const GRAY = 'rgba(128, 128, 128, 0.5)';
+  const [player, setPlayer] = useState('X')
+  const [board, setBoard] = useState(Array(9).fill(null))
+  const GRAY = 'rgba(128, 128, 128, 0.5)'
 
   const handleClick = (index: number) => {
     if (board[index] === null) {
-      const newBoard = [...board];
-      newBoard[index] = player;
-      setBoard(newBoard);
-      const winner = checkForWinner(newBoard);
+      const newBoard = [...board]
+      newBoard[index] = player
+      setBoard(newBoard)
+      const winner = checkForWinner(newBoard)
       if (winner) {
-        alert(`Winner: ${winner}`);
-        return;
+        alert(`Winner: ${winner}`)
+        return
       }
-      setPlayer(player === 'X' ? 'O' : 'X');
+      setPlayer(player === 'X' ? 'O' : 'X')
     }
-  };
+  }
 
   const checkForWinner = (board: (string | null)[]) => {
     const lines = [
@@ -36,20 +30,20 @@ const App: FC = () => {
       [2, 5, 8], // 縦3
       [0, 4, 8], // 斜め1
       [2, 4, 6], // 斜め2
-    ];
+    ]
     for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
+      const [a, b, c] = lines[i]
       if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-        return board[a];
+        return board[a]
       }
     }
-    return null;
+    return null
   }
 
   const resetBoard = () => {
-    setBoard(Array(9).fill(null));
-    setPlayer('X');
-  };
+    setBoard(Array(9).fill(null))
+    setPlayer('X')
+  }
 
   const renderButton = (index: number) => (
     <Button
@@ -59,7 +53,7 @@ const App: FC = () => {
     >
       {board[index]}
     </Button>
-  );
+  )
 
   return (
     <div>
@@ -94,7 +88,7 @@ const App: FC = () => {
         </Box>
       </Stack>
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
