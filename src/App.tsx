@@ -17,9 +17,34 @@ const App: FC = () => {
       const newBoard = [...board];
       newBoard[index] = player;
       setBoard(newBoard);
+      const winner = checkForWinner(newBoard);
+      if (winner) {
+        alert(`Winner: ${winner}`);
+        return;
+      }
       setPlayer(player === 'X' ? 'O' : 'X');
     }
   };
+
+  const checkForWinner = (board: (string | null)[]) => {
+    const lines = [
+      [0, 1, 2], // 横1
+      [3, 4, 5], // 横2
+      [6, 7, 8], // 横3
+      [0, 3, 6], // 縦1
+      [1, 4, 7], // 縦2
+      [2, 5, 8], // 縦3
+      [0, 4, 8], // 斜め1
+      [2, 4, 6], // 斜め2
+    ];
+    for (let i = 0; i < lines.length; i++) {
+      const [a, b, c] = lines[i];
+      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+        return board[a];
+      }
+    }
+    return null;
+  }
 
   const resetBoard = () => {
     setBoard(Array(9).fill(null));
